@@ -1,0 +1,15 @@
+/* تعريف الـ font العربي */
+@font-face {
+  font-family: 'TintaArabic';
+  src: url('/fonts/TintaArabic-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+/* تغيير font حسب اتجاه الكتابة */
+[dir="rtl"] {
+  font-family: 'TintaArabic', sans-serif;
+}
+
+[dir="rtl"] {
+  font-family: 'TintaArabic', sans-serif;
+}

@@ -1,0 +1,50 @@
+<div class="container my-5" *ngIf="vm$ | async as vm">
+  <h3 class="mb-4 fw-bold text-center">
+    {{ vm.lang === 'ar' ? 'أفضل العروض' : 'Best Offers' }}
+  </h3>
+
+  <div class="offer-search mb-4">
+    <span class="search-icon">🔍</span>
+
+    <input
+      type="text"
+      class="search-input"
+      [placeholder]="vm.lang === 'ar' ? 'دور على عرض...' : 'Search offers...'"
+      (input)="onSearch($any($event.target).value)"
+    />
+  </div>
+
+  <div class="row g-4" *ngIf="vm.offers.length > 0">
+    <div class="col-md-4 col-lg-3" *ngFor="let o of vm.offers">
+      <div class="card offer-card h-100">
+        <span class="discount-badge"> -{{ getDiscount(o.originalPrice, o.offerPrice) }}% </span>
+        <a [routerLink]="['/products', o.product.productId]" class="text-decoration-none">
+          <img
+            [src]="'https://localhost:7054/images/products/' + o.product.mainImage"
+            class="card-img-top cursor-pointer"
+            alt="product"
+          />
+        </a>
+
+        <div class="card-body text-center">
+          <h6 class="fw-bold">
+            {{ vm.lang === 'ar' ? o.product.nameAr : o.product.nameEn }}
+          </h6>
+
+          <p class="price">
+            <span class="old">{{ o.originalPrice }} $</span>
+            <span class="new">{{ o.offerPrice }} $</span>
+          </p>
+
+          <!-- <button class="btn btn-dark w-100" (click)="addToCart(o.variantId)">
+            {{ vm.lang === 'ar' ? 'أضف للسلة' : 'Add to Cart' }}
+          </button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="text-center" *ngIf="vm.offers.length === 0">
+    {{ vm.lang === 'ar' ? 'لا توجد عروض' : 'No offers available' }}
+  </p>
+</div>

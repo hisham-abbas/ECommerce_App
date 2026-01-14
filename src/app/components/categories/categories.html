@@ -1,0 +1,58 @@
+<div *ngIf="vm$ | async as vm">
+  <!-- 🔍 Search -->
+  <div class="mb-4">
+<div class="category-search mb-4">
+  <span class="search-icon">
+    🔍
+  </span>
+
+  <input
+    type="text"
+    class="search-input"
+    [placeholder]="
+      vm.lang === 'ar'
+        ? 'دور على قسم...'
+        : 'Search categories...'
+    "
+    (input)="onSearch($any($event.target).value)"
+  />
+</div>
+
+
+    <div *ngFor="let category of vm.categories" class="category-card">
+      <div class="category-header">
+        <h3>
+          {{ vm.lang === 'ar' ? category.nameAr : category.nameEn }}
+        </h3>
+        <p>
+          {{ vm.lang === 'ar' ? category.descriptionAr : category.descriptionEn }}
+        </p>
+      </div>
+
+      <div *ngIf="(category.products?.length || 0) > 0" class="products-slider">
+        <div class="product-track">
+          <a
+            class="product-card"
+            *ngFor="let product of category.products"
+            [routerLink]="['/products', product.productId]"
+          >
+            <img
+              [src]="'https://localhost:7054/images/products/' + product.mainImage"
+              [alt]="vm.lang === 'ar' ? product.nameAr : product.nameEn"
+            />
+
+            <div class="product-info">
+              <h5>
+                {{ vm.lang === 'ar' ? product.nameAr : product.nameEn }}
+              </h5>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <p *ngIf="category.products?.length === 0" class="text-muted">
+        {{ vm.lang === 'ar' ? 'مفيش منتجات في القسم ده' : 'No products in this category' }}
+      </p>
+    </div>
+  </div>
+</div>

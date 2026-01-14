@@ -1,0 +1,54 @@
+<div *ngIf="vm$ | async as vm">
+
+  <h3 class="mb-4 fw-bold text-center">
+    {{ vm.lang === 'ar' ? 'كل المنتجات' : 'All Products' }}
+  </h3>
+
+  <!-- 🔍 Search -->
+  <div class="product-search mb-4">
+    <span class="search-icon">🔍</span>
+
+    <input
+      type="text"
+      class="search-input"
+      [placeholder]="
+        vm.lang === 'ar'
+          ? 'دور على منتج...'
+          : 'Search products...'
+      "
+      (input)="onSearch($any($event.target).value)"
+    />
+  </div>
+
+  <!-- 🧱 Products Grid -->
+  <div class="row">
+    <div class="col-md-3 mb-4" *ngFor="let product of vm.products">
+      <div
+        class="card h-100 shadow-sm cursor-pointer"
+        [routerLink]="['/products', product.productId]"
+      >
+        <img
+          [src]="'https://localhost:7054/images/products/' + product.mainImage"
+          class="card-img-top"
+          [alt]="vm.lang === 'ar' ? product.nameAr : product.nameEn"
+        />
+
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-center">
+            {{ vm.lang === 'ar' ? product.nameAr : product.nameEn }}
+          </h5>
+
+          <p class="card-text text-center mb-3">
+            <span *ngIf="product.hasOffer" class="text-danger fw-bold">
+              {{ product.minPrice | currency:'USD' }}
+            </span>
+            <span *ngIf="!product.hasOffer" class="fw-bold">
+              {{ product.minPrice | currency:'USD' }}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,131 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="container mt-3">
+    <h3>Products</h3>
+    <button class="btn btn-success mb-3" (click)="openAddProduct()">+ Add Product</button>
+
+    <div class="d-flex justify-content-center mb-3">
+      <div class="admin-search">
+        <span class="search-icon">🔍</span>
+
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search products..."
+          (input)="onSearch($any($event.target).value)"
+        />
+      </div>
+    </div>
+
+    <table class="table table-bordered" *ngIf="!vm.loading">
+      <thead class="table-dark">
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th class="text-center text-nowrap" style="width: 1%">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of vm.products">
+          <td>{{ p.nameEn }}</td>
+          <td>{{ p.categoryId }}</td>
+          <td>
+            <span [class]="p.isActive ? 'text-success' : 'text-danger'">
+              {{ p.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td>
+            <div class="d-inline-flex gap-1">
+              <button type="button" class="btn btn-sm btn-primary" (click)="openEditProduct(p)">
+                Edit
+              </button>
+              <button type="button" class="btn btn-sm btn-danger" (click)="delete(p)">
+                Delete
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-secondary"
+                [routerLink]="['/admin/products', p.productId, 'variants']"
+              >
+                Variants
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>
+
+<!-- ================= OFFCANVAS ================= -->
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addProductCanvas">
+  <div class="offcanvas-header">
+    <h5>{{ isEditMode ? 'Edit Product' : 'Add New Product' }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+
+  <div class="offcanvas-body">
+    <form (ngSubmit)="saveProduct()">
+      <div class="mb-3">
+        <label>Category</label>
+        <select class="form-select" [(ngModel)]="product.categoryId" name="categoryId" required>
+          <option value="">Select Category</option>
+          <option *ngFor="let c of categories" [ngValue]="c.categoryId">
+            {{ c.nameEn }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label>Name (EN)</label>
+        <input class="form-control" [(ngModel)]="product.nameEn" name="nameEn" required />
+      </div>
+
+      <div class="mb-3">
+        <label>Name (AR)</label>
+        <input class="form-control" [(ngModel)]="product.nameAr" name="nameAr" required />
+      </div>
+
+      <div class="mb-3">
+        <label>Description (EN)</label>
+        <textarea
+          class="form-control"
+          [(ngModel)]="product.descriptionEn"
+          name="descriptionEn"
+        ></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label>Description (AR)</label>
+        <textarea
+          class="form-control"
+          [(ngModel)]="product.descriptionAr"
+          name="descriptionAr"
+        ></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label>Main Image</label>
+        <input type="file" (change)="onMainImageSelected($event)" />
+
+        <label>Gallery Images</label>
+        <input type="file" class="form-control" multiple (change)="onImagesSelected($event)" />
+      </div>
+
+      <div class="form-check mb-3">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          [(ngModel)]="product.isActive"
+          name="isActive"
+        />
+        <label class="form-check-label">Active</label>
+      </div>
+
+      <button class="btn btn-primary w-100" type="submit">
+        {{ isEditMode ? 'Update Product' : 'Save Product' }}
+      </button>
+    </form>
+  </div>
+</div>

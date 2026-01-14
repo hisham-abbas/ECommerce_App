@@ -1,0 +1,75 @@
+:host {
+  display: block;
+  background: #f6f7fb;
+  min-height: 100vh;
+}
+
+.kpi-card {
+  border-radius: 14px;
+  border: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0,0,0,.08);
+}
+
+.kpi-title {
+  font-size: .85rem;
+  font-weight: 600;
+  color: #6c757d;
+  letter-spacing: .3px;
+}
+
+.kpi-value {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.kpi-sub {
+  font-size: .8rem;
+  margin-top: 6px;
+}
+
+.chart-box {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+}
+
+canvas {
+  display: block;
+}
+
+.card {
+  border-radius: 14px;
+}
+
+.card-header {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  font-weight: 600;
+}
+
+.table th {
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.badge {
+  font-weight: 600;
+  padding: .45em .6em;
+  border-radius: 8px;
+}
+
+input.form-control {
+  border-radius: 10px;
+}

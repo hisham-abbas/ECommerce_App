@@ -1,0 +1,88 @@
+<div class="container mt-4" *ngIf="vm$ | async as vm">
+
+  <h3 class="mb-4">🛒 Shopping Cart</h3>
+
+  <table
+    class="table table-bordered align-middle"
+    *ngIf="vm.items.length > 0"
+  >
+    <thead class="table-dark">
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th style="width:150px">Quantity</th>
+        <th>Total</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of vm.items">
+        <td>
+          <div class="d-flex align-items-center gap-2">
+            <img
+              [src]="'https://localhost:7054/images/products/' + item.image"
+              width="60"
+              class="rounded"
+            />
+            <div>
+              <strong>{{ item.name }}</strong><br />
+              <small class="text-muted">
+                {{ item.color }} / {{ item.size }}
+              </small>
+            </div>
+          </div>
+        </td>
+
+        <td>{{ item.price | currency:'USD' }}</td>
+
+        <td>
+          <div class="d-flex gap-1">
+            <!-- <button
+              class="btn btn-sm btn-outline-secondary"
+              (click)="decrease(item.cartItemId, item.quantity)"
+            >
+              −
+            </button> -->
+
+            <span class="px-2">{{ item.quantity }}</span>
+
+            <!-- <button
+              class="btn btn-sm btn-outline-secondary"
+              (click)="increase(item.cartItemId, item.quantity)"
+            >
+              +
+            </button> -->
+          </div>
+        </td>
+
+        <td>
+          {{ item.price * item.quantity | currency:'USD' }}
+        </td>
+
+        <td>
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="remove(item.cartItemId)"
+          >
+            ✕
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Empty cart -->
+  <div *ngIf="vm.items.length === 0" class="alert alert-info">
+    Cart is empty
+  </div>
+
+  <!-- Summary -->
+  <div class="text-end mt-3" *ngIf="vm.items.length > 0">
+    <h4>Total: {{ vm.total | currency:'USD' }}</h4>
+    <button class="btn btn-success mt-2" routerLink="/checkout">
+      Checkout
+    </button>
+  </div>
+
+</div>

@@ -1,0 +1,11 @@
+<!-- Admin Navbar -->
+<admin-navbar *ngIf="isAdmin"></admin-navbar>
+
+<!-- User / Guest Navbar -->
+<app-navbar *ngIf="!isAdmin"></app-navbar>
+
+<div [attr.dir]="currentLang === 'ar' ? 'rtl' : 'ltr'">
+  <router-outlet></router-outlet>
+</div>
+
+<app-footer></app-footer>

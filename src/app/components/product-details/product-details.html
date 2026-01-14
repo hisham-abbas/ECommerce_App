@@ -1,0 +1,157 @@
+<div class="container mt-4" *ngIf="vm$ | async as vm">
+  <div class="row">
+
+    <!-- LEFT -->
+    <div class="col-md-6">
+      <img
+        class="img-fluid rounded border mb-3"
+        [src]="imageBaseUrl + '/' + currentImage"
+      />
+
+      <div class="d-flex gap-2 flex-wrap">
+        <img
+          [src]="imageBaseUrl + '/' + vm.product.mainImage"
+          class="img-thumbnail gallery-thumb"
+          (click)="selectImage(vm.product.mainImage)"
+        />
+
+        <img
+          *ngFor="let img of vm.product.images"
+          [src]="imageBaseUrl + '/' + img.imageUrl"
+          class="img-thumbnail gallery-thumb"
+          (click)="selectImage(img.imageUrl)"
+        />
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col-md-6">
+
+      <h2>
+        {{ vm.lang === 'ar' ? vm.product.nameAr : vm.product.nameEn }}
+      </h2>
+
+      <p class="text-muted">
+        {{ vm.lang === 'ar'
+          ? vm.product.descriptionAr
+          : vm.product.descriptionEn }}
+      </p>
+
+      <!-- Color -->
+      <div class="mb-3">
+        <label>Color</label>
+        <select
+          class="form-select"
+          [(ngModel)]="selectedColor"
+          (ngModelChange)="onColorChange(vm.product)"
+        >
+          <option
+            *ngFor="let c of getColors(vm.product)"
+            [value]="c"
+          >
+            {{ c }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Size -->
+      <div class="mb-3">
+        <label>Size</label>
+        <select
+          class="form-select"
+          [(ngModel)]="selectedSize"
+          (ngModelChange)="onSelectionChange(vm.product)"
+        >
+          <option
+            *ngFor="let s of getSizes(vm.product)"
+            [value]="s"
+          >
+            {{ s }}
+          </option>
+        </select>
+      </div>
+
+<!-- Price -->
+<div class="mt-3">
+
+  <!-- Best Offer badge -->
+  <span
+    *ngIf="selectedVariant?.isBestOffer"
+    class="badge bg-danger mb-2"
+  >
+    🔥 Best Offer
+  </span>
+
+  <!-- Offer Price -->
+  <h4 class="text-success" *ngIf="selectedVariant?.offerPrice">
+    {{ selectedVariant.offerPrice | currency:'USD' }}
+    <small class="text-muted text-decoration-line-through ms-2">
+      {{ selectedVariant.price | currency:'USD' }}
+    </small>
+  </h4>
+
+  <!-- Normal Price -->
+  <h4 class="text-success" *ngIf="!selectedVariant?.offerPrice">
+    {{ selectedVariant?.price | currency:'USD' }}
+  </h4>
+
+</div>
+
+<!-- 🔢 Quantity -->
+<div class="mb-3">
+  <label>Quantity</label>
+
+  <input
+    type="number"
+    class="form-control"
+    [(ngModel)]="quantity"
+    [min]="1"
+    [max]="selectedVariant.stockQuantity"
+  />
+
+  <!-- <small class="text-muted">
+    Available: {{ selectedVariant.stockQuantity }}
+  </small> -->
+</div>
+
+<!-- Stock -->
+<div class="mt-2">
+  <span
+    class="badge"
+    [ngClass]="{
+      'bg-success': selectedVariant.stockQuantity > 5,
+      'bg-warning text-dark': selectedVariant.stockQuantity <= 5 && selectedVariant.stockQuantity > 0,
+      'bg-danger': selectedVariant?.stockQuantity === 0
+    }"
+  >
+    {{
+      selectedVariant?.stockQuantity === 0
+        ? 'Out of stock'
+        : selectedVariant?.stockQuantity + ' in stock'
+    }}
+  </span>
+</div>
+
+
+<button
+  class="btn btn-primary mt-3"
+  [disabled]="
+    !selectedVariant ||
+    !quantity ||
+    quantity <= 0 ||
+    quantity > selectedVariant.stockQuantity ||
+    selectedVariant.stockQuantity === 0
+  "
+  (click)="addToCart()"
+>
+  {{
+    selectedVariant.stockQuantity === 0
+      ? 'Out of stock'
+      : 'Add to Cart'
+  }}
+</button>
+
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="container mt-4" *ngIf="vm$ | async as vm">
+  <h3 class="mb-3">Checkout</h3>
+
+  <!-- Shipping City -->
+  <div class="mb-3">
+    <label class="form-label">Shipping City</label>
+
+    <select class="form-select" [(ngModel)]="shippingCityId">
+      <option [ngValue]="null">-- Select Shipping City --</option>
+      <option
+        *ngFor="let c of vm.shippingCities"
+        [ngValue]="c.shippingCityId"
+      >
+        {{ c.cityNameEn }} ({{ c.shippingPrice }} $)
+      </option>
+    </select>
+  </div>
+
+  <!-- Address -->
+  <div class="mb-3">
+    <label class="form-label">Address</label>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Street, building, apartment..."
+      [(ngModel)]="addressLine"
+    />
+  </div>
+
+  <!-- Notes -->
+  <div class="mb-3">
+    <label class="form-label">Notes (optional)</label>
+    <textarea
+      class="form-control"
+      rows="3"
+      placeholder="Any notes for delivery?"
+      [(ngModel)]="notes"
+    ></textarea>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="vm.error" class="alert alert-danger">
+    {{ vm.error }}
+  </div>
+
+  <!-- Submit -->
+  <button
+    class="btn btn-primary w-100"
+    [disabled]="
+      vm.loading ||
+      !shippingCityId ||
+      !addressLine.trim()
+    "
+    (click)="placeOrder()"
+  >
+    {{ vm.loading ? 'Placing Order...' : 'Place Order' }}
+  </button>
+</div>

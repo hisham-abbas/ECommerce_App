@@ -1,0 +1,67 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3" *ngIf="vm$ | async as vm">
+  <!-- Logo -->
+  <a class="navbar-brand d-flex align-items-center" routerLink="/">
+    <img src="/images/logo/logo.png" alt="Logo" height="80" class="me-2" />
+    <span>E-Commerce</span>
+  </a>
+
+  <!-- Toggle button -->
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#mainNavbar"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar content -->
+  <div class="collapse navbar-collapse" id="mainNavbar">
+    <ul class="navbar-nav ms-auto align-items-center">
+      <!-- Language Switch -->
+      <li class="nav-item me-3 d-flex align-items-center">
+        <div class="language-switch d-flex align-items-center gap-2">
+          <label class="switch mb-0">
+            <input type="checkbox" [checked]="vm.lang === 'en'" (change)="toggleLang()" />
+            <span class="slider round"></span>
+          </label>
+          <span class="text-light">
+            {{ vm.lang === 'ar' ? 'العربية' : 'English' }}
+          </span>
+        </div>
+      </li>
+
+      <!-- Cart -->
+      <li class="nav-item position-relative">
+        <a class="nav-link" routerLink="/cart">
+          🛒 Cart
+          <span
+            *ngIf="vm.cartCount > 0"
+            class="badge bg-danger position-absolute top-0 start-100 translate-middle"
+          >
+            {{ vm.cartCount }}
+          </span>
+        </a>
+      </li>
+
+      <!-- Register -->
+      <li class="nav-item me-2" *ngIf="!vm.isLoggedIn">
+        <a class="btn btn-outline-light" routerLink="/register">Register</a>
+      </li>
+
+      <!-- Login -->
+      <li class="nav-item me-2" *ngIf="!vm.isLoggedIn">
+        <a class="btn btn-outline-light" routerLink="/login">Login</a>
+      </li>
+
+      <li class="nav-item" *ngIf="vm.isLoggedIn">
+        <a class="nav-link" routerLink="/orders" routerLinkActive="active"> My Orders </a>
+      </li>
+
+      <!-- Logout -->
+      <li class="nav-item" *ngIf="vm.isLoggedIn">
+        <button class="btn btn-danger" (click)="logout()">Logout</button>
+      </li>
+    </ul>
+  </div>
+</nav>

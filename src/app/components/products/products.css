@@ -1,0 +1,55 @@
+.product-search {
+  position: relative;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+
+.product-search .search-input {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  transition: all 0.25s ease;
+  background-color: #fff;
+}
+
+.product-search .search-input:focus {
+  outline: none;
+  border-color: #198754; /* أخضر مناسب للمنتجات */
+  box-shadow: 0 0 0 0.15rem rgba(25, 135, 84, 0.15);
+}
+
+.product-search .search-icon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #999;
+  pointer-events: none;
+}
+
+/* RTL support */
+:host-context([dir='rtl']) .product-search .search-input {
+  padding: 12px 44px 12px 16px;
+}
+
+:host-context([dir='rtl']) .product-search .search-icon {
+  left: auto;
+  right: 16px;
+}
+
+
+.cursor-pointer {
+  cursor: pointer;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.cursor-pointer:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,.15);
+}

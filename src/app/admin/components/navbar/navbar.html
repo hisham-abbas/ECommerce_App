@@ -1,0 +1,113 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+
+    <!-- Logo / Dashboard -->
+    <a class="navbar-brand d-flex align-items-center" routerLink="/admin/dashboard">
+      <img src="/images/logo/logo.png" alt="Logo" height="60" class="me-2" />
+      <span>Admin Dashboard</span>
+    </a>
+
+    <!-- Toggle -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#adminNavbar"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="adminNavbar">
+
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto">
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/admin/categories" routerLinkActive="active">
+            Categories
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/admin/products" routerLinkActive="active">
+            Products
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/admin/orders" routerLinkActive="active">
+            Orders
+          </a>
+        </li>
+
+        <!-- 🔔 Notifications -->
+        <li
+          class="nav-item dropdown"
+          *ngIf="vm$ | async as vm"
+        >
+          <a
+            class="nav-link dropdown-toggle"
+            data-bs-toggle="dropdown"
+            style="cursor: pointer;"
+          >
+            🔔 Notifications
+            <span class="badge bg-danger ms-1" *ngIf="vm.hasNotifications">
+              {{ vm.count }}
+            </span>
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end p-2" style="min-width: 320px;">
+
+            <li *ngIf="!vm.hasNotifications" class="text-muted text-center">
+              No notifications
+            </li>
+
+            <li *ngFor="let n of vm.notifications">
+              <div class="small">
+
+                <strong *ngIf="n.type === 'CART'">🛒 Cart</strong>
+                <strong *ngIf="n.type === 'ORDER'">🧾 Order</strong>
+
+                <div *ngIf="n.type === 'CART'">
+                  {{ n.userName }} added
+                  <strong>{{ n.productName }}</strong>
+                  ({{ n.quantity }})
+                </div>
+
+                <div *ngIf="n.type === 'ORDER'">
+                  Order #{{ n.orderId }} —
+                  <strong>{{ n.total }} $</strong>
+                </div>
+
+                <div class="text-muted">
+                  {{ n.time | date:'short' }}
+                </div>
+              </div>
+
+              <hr class="my-2" />
+            </li>
+
+            <li class="text-center" *ngIf="vm.hasNotifications">
+              <button
+                class="btn btn-sm btn-outline-danger w-100"
+                (click)="clearNotifications()"
+              >
+                Clear notifications
+              </button>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Right side -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <button class="btn btn-outline-light btn-sm" (click)="logout()">
+            Logout
+          </button>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>

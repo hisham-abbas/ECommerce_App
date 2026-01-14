@@ -1,0 +1,252 @@
+<div class="container py-4" *ngIf="vm$ | async as vm; else loadingTpl">
+
+  <!-- Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <div>
+      <h3 class="mb-0 fw-bold">Admin Dashboard</h3>
+      <div class="text-muted">Overview of store performance</div>
+    </div>
+<!--
+    <div class="d-flex flex-wrap gap-2 align-items-end">
+      <div>
+        <label class="form-label mb-1">Days</label>
+        <input
+          class="form-control"
+          type="number"
+          [(ngModel)]="days"
+          min="1"
+          style="width: 110px;">
+      </div>
+
+      <div>
+        <label class="form-label mb-1">Low stock ≤</label>
+        <input
+          class="form-control"
+          type="number"
+          [(ngModel)]="lowStock"
+          min="0"
+          style="width: 140px;">
+      </div>
+
+      <button class="btn btn-primary mb-0" (click)="refresh()">
+        Refresh
+      </button>
+    </div> -->
+  </div>
+
+  <!-- ================= DATA ================= -->
+
+  <!-- KPI Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card kpi-card shadow-sm">
+        <div class="card-body">
+          <div class="kpi-title">Total Orders</div>
+          <div class="kpi-value">{{ vm.data.kpis.totalOrders }}</div>
+          <div class="kpi-sub text-muted">All time</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card kpi-card shadow-sm">
+        <div class="card-body">
+          <div class="kpi-title">Pending Orders</div>
+          <div class="kpi-value text-warning">{{ vm.data.kpis.pendingOrders }}</div>
+          <div class="kpi-sub text-muted">Needs attention</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card kpi-card shadow-sm">
+        <div class="card-body">
+          <div class="kpi-title">Delivered Orders</div>
+          <div class="kpi-value text-success">{{ vm.data.kpis.deliveredOrders }}</div>
+          <div class="kpi-sub text-muted">Completed</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card kpi-card shadow-sm">
+        <div class="card-body">
+          <div class="kpi-title">Total Revenue</div>
+          <div class="kpi-value text-primary">
+            {{ vm.data.kpis.totalRevenue | currency:'USD' }}
+          </div>
+          <div class="kpi-sub text-muted">Invoices total</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card kpi-card shadow-sm">
+        <div class="card-body">
+          <div class="kpi-title">Customers</div>
+          <div class="kpi-value">{{ vm.data.kpis.totalCustomers }}</div>
+          <div class="kpi-sub text-muted">Role: Customer</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card kpi-card shadow-sm">
+        <div class="card-body">
+          <div class="kpi-title">Active Products</div>
+          <div class="kpi-value">{{ vm.data.kpis.activeProducts }}</div>
+          <div class="kpi-sub text-muted">Published</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card kpi-card shadow-sm">
+        <div class="card-body">
+          <div class="kpi-title">Low Stock Variants</div>
+          <div class="kpi-value text-danger">{{ vm.data.kpis.lowStockVariants }}</div>
+          <div class="kpi-sub text-muted">≤ {{ lowStock }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card kpi-card shadow-sm">
+        <div class="card-body">
+          <div class="kpi-title">Active Offers</div>
+          <div class="kpi-value text-success">{{ vm.data.kpis.activeOffers }}</div>
+          <div class="kpi-sub text-muted">Variants on sale</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white fw-semibold">
+          Revenue by Day (last {{ days }} days)
+        </div>
+        <div class="card-body">
+          <div class="chart-box">
+            <canvas
+              baseChart
+              [type]="'line'"
+              [data]="vm.revenueLineData">
+            </canvas>
+          </div>
+
+          <div *ngIf="vm.data.revenueByDay.length === 0"
+               class="text-muted small mt-2">
+            No revenue data in this range.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-white fw-semibold">
+          Orders by Status
+        </div>
+        <div class="card-body">
+          <div class="chart-box">
+            <canvas
+              baseChart
+              [type]="'doughnut'"
+              [data]="vm.statusDoughnutData">
+            </canvas>
+          </div>
+
+          <div *ngIf="vm.data.ordersByStatus.length === 0"
+               class="text-muted small mt-2">
+            No orders status data.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tables -->
+  <div class="row g-3">
+    <!-- Recent Orders -->
+    <div class="col-12 col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white fw-semibold">
+          Recent Orders
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>#</th>
+                <th>Users</th>
+                <th>Products</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Date</th>
+                <th>City</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let o of vm.data.recentOrders">
+                <td class="fw-semibold">{{ o.orderId }}</td>
+                <td>{{ o.userName}}</td>
+                <td>{{o.productName}}</td>
+                <td>{{ o.status }}</td>
+                <td>{{ o.totalAmount | currency:'USD' }}</td>
+                <td>{{ o.createdDate | date:'medium' }}</td>
+                <td>{{ o.shippingCityName || '-' }}</td>
+              </tr>
+
+              <tr *ngIf="vm.data.recentOrders.length === 0">
+                <td colspan="6" class="text-center text-muted py-4">
+                  No recent orders
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Products -->
+    <div class="col-12 col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white fw-semibold">
+          Top Selling Products
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <tbody>
+              <tr *ngFor="let p of vm.data.topProducts">
+                <td>
+                  <div class="fw-semibold">{{ p.nameEn }}</div>
+                  <div class="text-muted small">{{ p.nameAr }}</div>
+                </td>
+                <td class="text-end fw-semibold">{{ p.soldQty }}</td>
+              </tr>
+
+              <tr *ngIf="vm.data.topProducts.length === 0">
+                <td colspan="2" class="text-center text-muted py-4">
+                  No top products
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============== LOADING ============== -->
+<ng-template #loadingTpl>
+  <div class="container py-4">
+    <div class="alert alert-info">Loading dashboard...</div>
+  </div>
+</ng-template>

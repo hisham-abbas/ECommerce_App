@@ -1,0 +1,121 @@
+<div class="container mt-4" *ngIf="vm$ | async as vm">
+
+  <h3 class="mb-3 fw-bold">Categories Management</h3>
+
+  <!-- Form -->
+  <div class="card mb-4 admin-form-card">
+  <div class="card-body">
+    <form #f="ngForm" (ngSubmit)="submit(f)" class="admin-form">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Arabic Name</label>
+          <input
+            class="form-control admin-input"
+            [(ngModel)]="form.nameAr"
+            name="nameAr" required/>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">English Name</label>
+          <input
+            class="form-control admin-input"
+            [(ngModel)]="form.nameEn"
+            name="nameEn" required/>
+        </div>
+      </div>
+
+      <div class="row g-3 mt-1">
+        <div class="col-md-6">
+          <label class="form-label">Arabic Description</label>
+          <textarea
+            rows="4"
+            class="form-control admin-input"
+            [(ngModel)]="form.descriptionAr"
+            name="descAr"></textarea>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">English Description</label>
+          <textarea
+            rows="4"
+            class="form-control admin-input"
+            [(ngModel)]="form.descriptionEn"
+            name="descEn"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions mt-4 d-flex gap-2">
+        <button class="btn btn-primary px-4" [disabled]="f.invalid">
+          {{ isEdit ? 'Update' : 'Add' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-outline-secondary px-4"
+          (click)="resetForm()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="admin-search mb-3">
+  <span class="search-icon">🔍</span>
+
+  <input
+    type="text"
+    class="search-input"
+    placeholder="Search categories..."
+    (input)="onSearch($any($event.target).value)"
+  />
+</div>
+
+
+  <!-- Table -->
+  <table class="table table-bordered text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Arabic</th>
+        <th>English</th>
+        <th>Status</th>
+        <th width="220">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let c of vm.categories">
+        <td>{{ c.categoryId }}</td>
+        <td>{{ c.nameAr }}</td>
+        <td>{{ c.nameEn }}</td>
+        <td>
+          <span class="badge"
+                [ngClass]="c.isActive ? 'bg-success' : 'bg-danger'">
+            {{ c.isActive ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-warning me-1" (click)="edit(c)">
+            Edit
+          </button>
+          <button class="btn btn-sm btn-danger me-1"
+                  (click)="hideCategory(c.categoryId)">
+            Delete
+          </button>
+          <button class="btn btn-sm btn-info"
+                  (click)="toggleActive(c)">
+            Toggle
+          </button>
+        </td>
+      </tr>
+
+      <tr *ngIf="vm.categories.length === 0">
+        <td colspan="5" class="text-muted py-4">
+          No categories found
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

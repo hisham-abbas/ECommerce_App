@@ -1,0 +1,13 @@
+.gallery-thumb {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #eee;
+  transition: 0.2s;
+}
+
+.gallery-thumb:hover {
+  border-color: #0d6efd;
+  transform: scale(1.05);
+}

@@ -1,0 +1,39 @@
+<footer class="bg-dark text-light py-4 mt-5">
+  <div class="container">
+    <div class="row">
+
+      <!-- About Section -->
+      <div class="col-md-4 mb-3">
+        <h5>{{ lang === 'ar' ? 'حول الموقع' : 'About' }}</h5>
+        <p>
+          {{ lang === 'ar'
+              ? 'هذا موقع للتجارة الإلكترونية يحتوي على أفضل المنتجات.'
+              : 'This is an e-commerce site with the best products.' }}
+        </p>
+      </div>
+
+      <!-- Links Section -->
+      <div class="col-md-4 mb-3">
+        <h5>{{ lang === 'ar' ? 'روابط سريعة' : 'Quick Links' }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-light text-decoration-none">{{ lang === 'ar' ? 'الرئيسية' : 'Home' }}</a></li>
+          <li><a href="#" class="text-light text-decoration-none">{{ lang === 'ar' ? 'المنتجات' : 'Products' }}</a></li>
+          <li><a href="#" class="text-light text-decoration-none">{{ lang === 'ar' ? 'العروض' : 'Offers' }}</a></li>
+          <li><a href="#" class="text-light text-decoration-none">{{ lang === 'ar' ? 'اتصل بنا' : 'Contact' }}</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="col-md-4 mb-3">
+        <h5>{{ lang === 'ar' ? 'تواصل معنا' : 'Contact Us' }}</h5>
+        <p>Email: info@example.com</p>
+        <p>Phone: +971 50 000 0000</p>
+      </div>
+
+    </div>
+
+    <div class="text-center mt-3">
+      &copy; {{ currentYear }} {{ lang === 'ar' ? 'جميع الحقوق محفوظة' : 'All rights reserved' }}
+    </div>
+  </div>
+</footer>

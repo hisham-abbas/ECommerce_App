@@ -1,0 +1,65 @@
+<div class="container mt-4" style="max-width: 520px;">
+  <h3 class="mb-3 text-center">Create Account</h3>
+
+  <div class="card shadow-sm p-3">
+    <form (ngSubmit)="submit()" #f="ngForm">
+
+      <div class="mb-3">
+        <label class="form-label">User Name</label>
+        <input
+          class="form-control"
+          name="userName"
+          [(ngModel)]="model.userName"
+          required
+          minlength="3"
+          placeholder="e.g. Omar123"
+        />
+        <small class="text-muted">
+          (letters/digits only — no spaces)
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input
+          class="form-control"
+          type="email"
+          name="email"
+          [(ngModel)]="model.email"
+          required
+          placeholder="name@example.com"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input
+          class="form-control"
+          type="password"
+          name="password"
+          [(ngModel)]="model.password"
+          required
+          minlength="6"
+          placeholder="At least 6 chars"
+        />
+        <small class="text-muted">
+          Must match Identity password policy.
+        </small>
+      </div>
+
+      <div *ngIf="errorMsg" class="alert alert-danger py-2">
+        {{ errorMsg }}
+      </div>
+
+      <button class="btn btn-primary w-100" type="submit" [disabled]="f.invalid || isLoading">
+        {{ isLoading ? 'Creating...' : 'Register' }}
+      </button>
+
+      <div class="text-center mt-3">
+        Already have an account?
+        <a routerLink="/login">Login</a>
+      </div>
+
+    </form>
+  </div>
+</div>

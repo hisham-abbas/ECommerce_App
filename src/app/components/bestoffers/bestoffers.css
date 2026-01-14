@@ -1,0 +1,80 @@
+.offer-search {
+  position: relative;
+  max-width: 420px;
+  margin: 0 auto 20px;
+}
+
+.offer-search .search-input {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  transition: all 0.25s ease;
+  background-color: #fff;
+}
+
+.offer-search .search-input:focus {
+  outline: none;
+  border-color: #dc3545; /* لون مناسب للعروض */
+  box-shadow: 0 0 0 0.15rem rgba(220, 53, 69, 0.15);
+}
+
+.offer-search .search-icon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #999;
+  pointer-events: none;
+}
+
+/* RTL */
+:host-context([dir='rtl']) .offer-search .search-input {
+  padding: 12px 44px 12px 16px;
+}
+
+:host-context([dir='rtl']) .offer-search .search-icon {
+  left: auto;
+  right: 16px;
+}
+
+
+.offer-card {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.offer-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,.15);
+}
+
+.discount-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #dc3545;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.price {
+  margin: 10px 0;
+}
+
+.price .old {
+  text-decoration: line-through;
+  color: #888;
+  margin-right: 8px;
+}
+
+.price .new {
+  color: #dc3545;
+  font-weight: bold;
+  font-size: 18px;
+}

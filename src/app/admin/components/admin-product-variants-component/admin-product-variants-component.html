@@ -1,0 +1,129 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="container mt-3" *ngIf="!vm.loading">
+  <h3>
+    {{ vm.product?.nameEn }}
+    <span class="badge bg-success ms-2"> {{ vm.product?.minPrice }} $ </span>
+
+    <span class="badge bg-warning text-dark ms-2" *ngIf="vm.product?.hasOffer"> Offer </span>
+  </h3>
+
+  <button class="btn btn-success mb-3" (click)="openAddVariant()">+ Add Variant</button>
+
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Color</th>
+        <th>Size</th>
+        <th>Price</th>
+        <th>Offer</th>
+        <th>Stock</th>
+        <th width="150">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let v of vm.product?.variants">
+        <td>{{ v.colorNameEn }}</td>
+        <td>{{ v.sizeNameEn }}</td>
+        <td>{{ v.price }}</td>
+        <td>
+          <span *ngIf="v.offerPrice; else noOffer">
+            {{ v.offerPrice }}
+          </span>
+          <ng-template #noOffer>-</ng-template>
+        </td>
+        <td>{{ v.stockQuantity }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary me-2" (click)="openEditVariant(v)">Edit</button>
+
+<button class="btn btn-sm btn-danger"
+        (click)="deleteVariant(v)">
+  Delete
+</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</ng-container>
+
+<!-- --------------------------MODAL------------------------------- -->
+
+<div class="modal fade" id="addVariantModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form class="modal-content" (ngSubmit)="saveVariant()">
+      <div class="modal-header">
+        <h5 class="modal-title">
+  {{ isEditMode ? 'Edit Variant' : 'Add Variant' }}
+</h5>
+
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Color -->
+        <div class="mb-3">
+          <label>Color</label>
+          <select class="form-select" [(ngModel)]="variant.colorId" name="colorId" required>
+            <option [ngValue]="null">Select Color</option>
+
+            <option *ngFor="let c of colors" [ngValue]="c.colorId">
+              {{ c.nameEn }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Size -->
+        <div class="mb-3">
+          <label>Size</label>
+          <select class="form-select" [(ngModel)]="variant.sizeId" name="sizeId" required>
+            <option [ngValue]="null">Select Size</option>
+
+            <option *ngFor="let s of sizes" [ngValue]="s.sizeId">
+              {{ s.nameEn }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label>Price</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="variant.price"
+            name="price"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label>Offer Price</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="variant.offerPrice"
+            name="offerPrice"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label>Stock</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="variant.stockQuantity"
+            name="stockQuantity"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">
+  {{ isEditMode ? 'Update' : 'Save' }}
+</button>
+
+      </div>
+    </form>
+  </div>
+</div>

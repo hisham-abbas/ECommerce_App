@@ -1,0 +1,125 @@
+<div class="container mt-4">
+  <h3 class="mb-4">Orders Management</h3>
+
+  <!-- 🔍 Search (Centered) -->
+  <div class="d-flex justify-content-center mb-4">
+    <div class="admin-search">
+      <span class="search-icon">🔍</span>
+
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search orders..."
+        (input)="onSearch($any($event.target).value)"
+      />
+    </div>
+  </div>
+
+  <ng-container *ngIf="orders$ | async as orders; else loading">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th></th>
+          <th>Id</th>
+          <th>User</th>
+          <th>Email</th>
+          <th>City</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <ng-container *ngFor="let o of orders">
+          <!-- 🔹 Order Row -->
+          <tr>
+            <td style="width: 40px">
+              <button class="btn btn-sm btn-outline-primary" (click)="o.open = !o.open">
+                {{ o.open ? '−' : '+' }}
+              </button>
+            </td>
+
+            <td>#{{ o.orderId }}</td>
+            <td>{{ o.userName }}</td>
+            <td class="text-muted">{{ o.email }}</td>
+            <td>{{ o.shippingCity }}</td>
+            <td>{{ o.totalAmount | number : '1.2-2' }} $</td>
+
+            <td>
+              <select
+                class="form-select form-select-sm"
+                [value]="o.orderStatus"
+                (change)="changeStatus(o.orderId, $event)"
+              >
+                <option *ngFor="let s of statuses" [value]="s.name">
+                  {{ s.name }}
+                </option>
+              </select>
+            </td>
+
+            <td>{{ o.orderDate | date : 'short' }}</td>
+          </tr>
+
+          <!-- 🔹 Details Row -->
+          <tr *ngIf="o.open">
+            <td colspan="8" class="bg-light">
+              <!-- Address -->
+              <div class="mb-2">
+                <strong>📍 Address:</strong>
+                <div class="text-muted">{{ o.addressLine }}</div>
+              </div>
+
+              <!-- Notes -->
+              <div class="mb-3" *ngIf="o.notes">
+                <strong>📝 Notes:</strong>
+                <div class="text-muted">{{ o.notes }}</div>
+              </div>
+
+              <!-- Products -->
+              <table class="table table-sm table-bordered">
+                <thead class="table-secondary">
+                  <tr>
+                    <th>Product</th>
+                    <th>Variant</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngFor="let i of o.items">
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <img
+                          [src]="'https://localhost:7054/images/products/' + i.image"
+                          width="50"
+                          class="rounded"
+                        />
+                        <span>{{ i.productName }}</span>
+                      </div>
+                    </td>
+
+                    <!-- ✅ Variant -->
+                    <td>
+                      <span class="badge bg-secondary"> {{ i.color }} / {{ i.size }} </span>
+                    </td>
+
+                    <td>{{ i.price | currency : 'USD' }}</td>
+                    <td>{{ i.quantity }}</td>
+                    <td>{{ i.price * i.quantity | currency : 'USD' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="text-center">Loading orders...</div>
+  </ng-template>
+</div>
