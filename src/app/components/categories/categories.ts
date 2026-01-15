@@ -4,6 +4,7 @@ import { CategoryService } from '../../services/category';
 import { LanguageService } from '../../services/lang';
 import { combineLatest, map, BehaviorSubject } from 'rxjs';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-categories',
@@ -16,6 +17,7 @@ export class CategoriesComponent {
 
   private categoryService = inject(CategoryService);
   private langService = inject(LanguageService);
+  env = environment;
 
   // 🔍 search text
   private search$ = new BehaviorSubject<string>('');

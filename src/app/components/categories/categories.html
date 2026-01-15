@@ -37,7 +37,7 @@
             [routerLink]="['/products', product.productId]"
           >
             <img
-              [src]="'https://localhost:7054/images/products/' + product.mainImage"
+              [src]="env.apiBaseUrl + '/images/products/' + product.mainImage"
               [alt]="vm.lang === 'ar' ? product.nameAr : product.nameEn"
             />
 

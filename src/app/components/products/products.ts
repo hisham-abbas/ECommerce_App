@@ -9,6 +9,7 @@ import { Observable, Subject, combineLatest, map, startWith, switchMap } from 'r
 import { ProductsService } from '../../services/product';
 import { Product } from '../../models/product';
 import { LanguageService, Lang } from '../../services/lang';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-products',
@@ -18,6 +19,8 @@ import { LanguageService, Lang } from '../../services/lang';
   styleUrls: ['./products.css'],
 })
 export class ProductsComponent implements OnInit {
+
+  env = environment;
 
   // 🔍 search
 private search$ = new BehaviorSubject<string>('');

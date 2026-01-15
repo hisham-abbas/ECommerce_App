@@ -5,6 +5,7 @@ import { LanguageService } from '../../services/lang';
 import { CartService } from '../../services/cart.service';
 import { combineLatest, map, BehaviorSubject } from 'rxjs';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class BestOffersComponent {
   private offersService = inject(OffersService);
   private langService = inject(LanguageService);
   private cartService = inject(CartService);
+  env = environment;
 
   // 🔍 search
   private search$ = new BehaviorSubject<string>('');

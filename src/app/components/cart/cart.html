@@ -21,7 +21,7 @@
         <td>
           <div class="d-flex align-items-center gap-2">
             <img
-              [src]="'https://localhost:7054/images/products/' + item.image"
+              [src]="env.apiBaseUrl + '/images/products/' + item.image"
               width="60"
               class="rounded"
             />
@@ -38,21 +38,7 @@
 
         <td>
           <div class="d-flex gap-1">
-            <!-- <button
-              class="btn btn-sm btn-outline-secondary"
-              (click)="decrease(item.cartItemId, item.quantity)"
-            >
-              −
-            </button> -->
-
             <span class="px-2">{{ item.quantity }}</span>
-
-            <!-- <button
-              class="btn btn-sm btn-outline-secondary"
-              (click)="increase(item.cartItemId, item.quantity)"
-            >
-              +
-            </button> -->
           </div>
         </td>
 

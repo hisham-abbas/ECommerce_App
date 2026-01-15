@@ -5,6 +5,7 @@ import { LanguageService } from '../../services/lang';
 import { AuthService } from '../../services/auth-service';
 import { CartService } from '../../services/cart.service';
 import { combineLatest, map } from 'rxjs';
+//import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -19,6 +20,7 @@ export class NavbarComponent {
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   private router = inject(Router);
+  //env = environment;
 
   // ✅ ViewModel واحد
   vm$ = combineLatest([

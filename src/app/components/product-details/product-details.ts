@@ -8,6 +8,7 @@ import { ProductsService } from '../../services/product';
 import { LanguageService } from '../../services/lang';
 import { CartService } from '../../services/cart.service';
 import { ProductVariant } from '../../models/product-variant';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-product-details',
@@ -18,7 +19,7 @@ import { ProductVariant } from '../../models/product-variant';
 })
 export class ProductDetailsComponent {
 
-  imageBaseUrl = 'https://localhost:7054/images/products';
+  imageBaseUrl = `${environment.apiBaseUrl}/images/products`;
   currentImage = '';
   quantity = 1;
 

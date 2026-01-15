@@ -4,6 +4,7 @@ import { AdminOrdersService } from '../../../services/admin-orders-service';
 import { AdminOrder } from '../../../models/admin-order';
 import { Observable, Subject, merge, map, startWith, switchMap, BehaviorSubject, combineLatest } from 'rxjs';
 import { AdminNotificationService } from '../../../services/admin-notification-service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'admin-orders',
@@ -13,6 +14,8 @@ import { AdminNotificationService } from '../../../services/admin-notification-s
   styleUrls: ['./admin-orders.css']
 })
 export class AdminOrdersComponent implements OnInit {
+
+  env = environment;
 
   // 🔍 search
 private search$ = new BehaviorSubject<string>('');

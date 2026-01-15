@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 import { map } from 'rxjs';
 import { RouterLink } from "@angular/router";
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cart',
@@ -13,6 +14,7 @@ import { RouterLink } from "@angular/router";
 export class CartComponent {
 
   private cartService = inject(CartService);
+  env = environment;
 
   // ✅ ViewModel Reactive
   vm$ = this.cartService.cart$.pipe(
